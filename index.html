@@ -21,6 +21,8 @@ main{padding:70px 20px}.section{padding:24px 0 40px}.eyebrow{color:var(--blue);f
 .disclosure{background:#fff8e6;border:1px solid #f6d98d;border-radius:16px;padding:18px;line-height:1.6}.bidbox{background:var(--navy);color:#fff;border-radius:22px;padding:32px}.bidbox h2{color:#fff}.bidbox ul{color:#d8e7f7}.footer{background:#06111d;color:#c8d6e6;padding:32px 20px;font-size:13px}
 [data-lang]{display:none}body.en [data-lang=en],body.pt [data-lang=pt],body.es [data-lang=es]{display:block}
 @media(max-width:760px){.kpis,.grid2{grid-template-columns:1fr 1fr}.kpis{margin-top:-30px}.kpi{padding:18px}h1{letter-spacing:-2px}}@media(max-width:520px){.kpis,.grid2{grid-template-columns:1fr}.nav{align-items:flex-start;flex-direction:column}.lang button{margin:0 6px 0 0}}
+
+.leadform{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}.leadform .full{grid-column:1/-1}.leadform input,.leadform select,.leadform textarea{width:100%;border:1px solid #2b4259;background:#0c2135;color:#fff;border-radius:12px;padding:13px;font:inherit}.leadform input::placeholder,.leadform textarea::placeholder{color:#9fb0c2}.leadform textarea{min-height:120px;resize:vertical}.leadform button{cursor:pointer}.formstatus{margin-top:12px;font-weight:700}.hp{position:absolute;left:-9999px;opacity:0}@media(max-width:650px){.leadform{grid-template-columns:1fr}}
 </style>
 </head>
 <body class="en">
@@ -37,11 +39,59 @@ main{padding:70px 20px}.section{padding:24px 0 40px}.eyebrow{color:var(--blue);f
 <section class="section"><div class="eyebrow">Transaction</div><h2>Seller base position.</h2><div class="grid2"><div class="card"><h3>Economics</h3><ul><li>Indicative minimum cash consideration: <b>US$10,000,000</b></li><li>Base control position offered: <b>80%</b></li><li>Founder target retained equity: <b>20%</b></li><li>Alternative structures may be considered if total economics are superior</li></ul></div><div class="card"><h3>Qualified-buyer requirements</h3><ul><li>Legal identity and authorized representative</li><li>Strategic rationale</li><li>Funding capability / proof of funds</li><li>NDA before sensitive access</li><li>Controlled diligence and code review</li></ul></div></div></section>
 <section class="section"><div class="eyebrow">Process</div><h2>Competitive sale in rounds.</h2><div class="process"><div class="step"><b>1. Teaser & qualification</b>Interested parties identify themselves and request confidential access.</div><div class="step"><b>2. NDA & CIM</b>Qualified buyers receive the confidential information package and selected product evidence.</div><div class="step"><b>3. Indication of Interest</b>Price, structure, funding certainty, diligence requirements and timing.</div><div class="step"><b>4. Shortlist & diligence</b>Selected buyers receive controlled technical and legal diligence access.</div><div class="step"><b>5. Best-and-Final Offer</b>Final economics, proof of funds, closing timetable and definitive conditions.</div><div class="step"><b>6. Signing & closing</b>Escrow-funded closing, founder 20% equity effectiveness and controlled asset transfer.</div></div></section>
 <section class="section"><div class="disclosure"><b>Disclosure:</b> VAIUM is currently an advanced MVP / pre-commercial technology asset. The process does not represent audited revenue, scaled ride volume or verified market share. Buyers must conduct independent legal, technical, regulatory, financial and commercial due diligence.</div></section>
-<section class="section bidbox"><div class="eyebrow">Bid access</div><h2>Interested in Project VAIUM?</h2><p>Send your legal entity name, representative, acquisition rationale, indicative offer range and evidence of funding capability. Qualified parties will receive the NDA and confidential materials.</p><div class="cta"><a class="btn primary" href="mailto:notrevesantos2407@gmail.com?subject=Project%20VAIUM%20-%20Confidential%20Access%20Request">Request NDA & CIM</a></div></section>
+<section class="section bidbox"><div class="eyebrow">Bid access</div><h2>Interested in Project VAIUM?</h2><p>Send your legal entity name, representative, acquisition rationale, indicative offer range and evidence of funding capability. Qualified parties will receive the NDA and confidential materials.</p>
+<form id="leadForm" class="leadform">
+  <input name="name" required maxlength="120" placeholder="Your name">
+  <input name="company" required maxlength="180" placeholder="Company / fund">
+  <input name="email" required type="email" maxlength="200" placeholder="Business email">
+  <input name="role" maxlength="140" placeholder="Title / role">
+  <input name="country" maxlength="120" placeholder="Country">
+  <select name="buyerType">
+    <option value="">Buyer type</option>
+    <option>Strategic acquirer</option>
+    <option>Private equity / growth investor</option>
+    <option>Family office</option>
+    <option>Corporate venture / investment arm</option>
+    <option>M&A advisor representing a buyer</option>
+  </select>
+  <select name="indicatedCapacity" class="full">
+    <option value="">Indicative transaction capacity</option>
+    <option>US$10M–US$25M</option>
+    <option>US$25M–US$50M</option>
+    <option>US$50M+</option>
+    <option>Prefer to disclose under NDA</option>
+  </select>
+  <textarea class="full" name="message" maxlength="4000" placeholder="Acquisition rationale, proposed structure, timing, and any initial questions"></textarea>
+  <input class="hp" tabindex="-1" autocomplete="off" name="website" aria-hidden="true">
+  <button class="btn primary full" type="submit">Request NDA & confidential access</button>
+</form>
+<div id="formStatus" class="formstatus"></div>
+</section>
 </div></main>
 <footer class="footer"><div class="wrap">VAIUM Strategic Acquisition Process · Seller contact: notrevesantos2407@gmail.com · Discussion purposes only. Seller may modify or terminate the process prior to definitive agreements.</div></footer>
 <script>
 function setL(l){document.body.className=l;localStorage.setItem('vaium_acq_lang',l)}
 const s=localStorage.getItem('vaium_acq_lang');if(s)setL(s);else{const l=(navigator.language||'en').slice(0,2);setL(['pt','es'].includes(l)?l:'en')}
+
+const leadForm=document.getElementById('leadForm');
+if(leadForm){
+  leadForm.addEventListener('submit',async(e)=>{
+    e.preventDefault();
+    const status=document.getElementById('formStatus');
+    const button=leadForm.querySelector('button[type=submit]');
+    button.disabled=true; status.textContent='Submitting…';
+    try{
+      const payload=Object.fromEntries(new FormData(leadForm).entries());
+      const r=await fetch('https://corrida-api-production.up.railway.app/api/acquisition-interest',{
+        method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)
+      });
+      const data=await r.json().catch(()=>({}));
+      if(!r.ok) throw new Error(data.error||'Unable to submit interest.');
+      status.textContent='Received. Reference: '+(data.reference||'confirmed')+'. We will review your request for confidential access.';
+      leadForm.reset();
+    }catch(err){ status.textContent=err.message||'Unable to submit interest. Please email notrevesantos2407@gmail.com.'; }
+    finally{button.disabled=false;}
+  });
+}
 </script>
 </body></html>
