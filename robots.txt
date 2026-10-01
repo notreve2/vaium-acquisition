@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://notreve2.github.io/vaium-acquisition/sitemap.xml
